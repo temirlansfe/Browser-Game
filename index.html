@@ -1,41 +1,52 @@
 <!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="data:," />
-    <title>Rat Combat Online</title>
-  </head>
-  <body>
-    <canvas id="game"></canvas>
-    <div class="reticle" aria-hidden="true"></div>
-    <div class="hud" aria-label="Game status">
-      <div class="chip" id="status">Loading rat...</div>
-      <div class="hint">E shop + click/touch + WASD</div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:," />
+  <title>Rat Combat Online</title>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000">
+</head>
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js");
+  }
+</script>
+
+<body>
+  <canvas id="game"></canvas>
+  <div class="reticle" aria-hidden="true"></div>
+  <div class="hud" aria-label="Game status">
+    <div class="chip" id="status">Loading rat...</div>
+    <div class="hint">E shop + click/touch + WASD</div>
+  </div>
+  <div class="shop-panel" id="shop-panel" aria-label="Upgrade shop">
+    <div class="shop-title">Shop</div>
+    <div class="shop-copy" id="shop-copy">Earn coins by killing NPCs.</div>
+    <button class="upgrade-button" id="upgrade-button" type="button">Upgrade 20 coins</button>
+  </div>
+  <form class="name-gate" id="name-gate">
+    <div class="name-panel">
+      <label class="name-label" for="nickname-input">Nickname</label>
+      <input class="name-input" id="nickname-input" name="nickname" maxlength="18" autocomplete="nickname"
+        placeholder="Player" />
+      <button class="name-button" type="submit">Play</button>
     </div>
-    <div class="shop-panel" id="shop-panel" aria-label="Upgrade shop">
-      <div class="shop-title">Shop</div>
-      <div class="shop-copy" id="shop-copy">Earn coins by killing NPCs.</div>
-      <button class="upgrade-button" id="upgrade-button" type="button">Upgrade 20 coins</button>
+  </form>
+  <div class="mobile-controls" aria-label="Mobile controls">
+    <div class="joystick" id="move-stick" aria-label="Move">
+      <div class="joystick-knob" id="move-stick-knob"></div>
     </div>
-    <form class="name-gate" id="name-gate">
-      <div class="name-panel">
-        <label class="name-label" for="nickname-input">Nickname</label>
-        <input class="name-input" id="nickname-input" name="nickname" maxlength="18" autocomplete="nickname" placeholder="Player" />
-        <button class="name-button" type="submit">Play</button>
-      </div>
-    </form>
-    <div class="mobile-controls" aria-label="Mobile controls">
-      <div class="joystick" id="move-stick" aria-label="Move">
-        <div class="joystick-knob" id="move-stick-knob"></div>
-      </div>
-      <div class="mobile-actions">
-        <button class="mobile-button mobile-button-small" id="mobile-weapon" type="button" aria-label="Weapon">1</button>
-        <button class="mobile-button mobile-button-small" id="mobile-shop" type="button" aria-label="Shop">$</button>
-        <button class="mobile-button" id="mobile-jump" type="button" aria-label="Jump">↑</button>
-        <button class="mobile-button mobile-button-attack" id="mobile-attack" type="button" aria-label="Attack">●</button>
-      </div>
+    <div class="mobile-actions">
+      <button class="mobile-button mobile-button-small" id="mobile-weapon" type="button" aria-label="Weapon">1</button>
+      <button class="mobile-button mobile-button-small" id="mobile-shop" type="button" aria-label="Shop">$</button>
+      <button class="mobile-button" id="mobile-jump" type="button" aria-label="Jump">↑</button>
+      <button class="mobile-button mobile-button-attack" id="mobile-attack" type="button" aria-label="Attack">●</button>
     </div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
 </html>
