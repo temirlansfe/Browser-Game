@@ -62,6 +62,7 @@ type WallCollider = {
 type NetworkPlayerState = {
   position: [number, number, number];
   yaw: number;
+  rotationY: number;
   speed: number;
   weaponEquipped: boolean;
   kills: number;
@@ -266,6 +267,7 @@ const aimTarget = new THREE.Vector3();
 const desiredCamera = new THREE.Vector3();
 const cameraTarget = new THREE.Vector3(0, 1.25, 0);
 const yAxis = new THREE.Vector3(0, 1, 0);
+const MODEL_FORWARD_OFFSET = Math.PI;
 
 const baseBoneRotations = new Map<THREE.Bone, THREE.Euler>();
 
@@ -2031,6 +2033,8 @@ function removeNpcVisuals(npc: EnemyNpc) {
 }
 
 function createRemotePlayerAvatar(id: string, state: NetworkPlayerState) {
+  normalizeNetworkPlayerState(state);
+
   const root = new THREE.Group();
   root.name = `remote-player-${id}`;
 
@@ -2051,13 +2055,13 @@ function createRemotePlayerAvatar(id: string, state: NetworkPlayerState) {
     mixer: createRemoteMixer(avatar, state.character),
     nameTag: createNameTag(state.nickname),
     targetPosition: new THREE.Vector3(...state.position),
-    targetYaw: state.yaw,
+    targetYaw: getRemoteDisplayYaw(state),
     state,
     usingPlaceholder: Boolean(avatar.userData.isPlaceholder),
   };
 
   root.position.copy(remotePlayer.targetPosition);
-  root.rotation.y = state.yaw;
+  root.rotation.y = remotePlayer.targetYaw;
   remotePlayer.nameTag.position.set(0, getRemoteNameTagY(state.character), 0);
   root.add(remotePlayer.nameTag);
   scene.add(root);
@@ -2279,6 +2283,7 @@ function refreshRemotePlayerWeapons() {
 }
 
 function upsertRemotePlayer(id: string, state: NetworkPlayerState) {
+  normalizeNetworkPlayerState(state);
   state.nickname = sanitizeNickname(state.nickname ?? "Player");
   state.character = state.character === "shrek" ? "shrek" : "rat";
   let remotePlayer = remotePlayers.get(id);
@@ -2292,7 +2297,7 @@ function upsertRemotePlayer(id: string, state: NetworkPlayerState) {
   const changedNickname = remotePlayer.state.nickname !== state.nickname;
   remotePlayer.state = state;
   remotePlayer.targetPosition.set(...state.position);
-  remotePlayer.targetYaw = state.yaw;
+  remotePlayer.targetYaw = getRemoteDisplayYaw(state);
 
   if (changedCharacter || remotePlayer.usingPlaceholder) {
     replaceRemoteAvatar(id, remotePlayer, state.character);
@@ -2328,6 +2333,25 @@ function replaceRemoteAvatar(
   remotePlayer.usingPlaceholder = Boolean(avatar.userData.isPlaceholder);
   remotePlayer.mixer = createRemoteMixer(avatar, character);
   remotePlayer.root.add(avatar);
+}
+
+function normalizeNetworkPlayerState(state: NetworkPlayerState) {
+  const networkYaw = getNetworkStateYaw(state);
+
+  state.yaw = networkYaw;
+  state.rotationY = networkYaw;
+}
+
+function getNetworkStateYaw(state: Partial<NetworkPlayerState>) {
+  return Number.isFinite(state.rotationY)
+    ? Number(state.rotationY)
+    : Number.isFinite(state.yaw)
+      ? Number(state.yaw)
+      : 0;
+}
+
+function getRemoteDisplayYaw(state: NetworkPlayerState) {
+  return getNetworkStateYaw(state) + MODEL_FORWARD_OFFSET;
 }
 
 function removeRemotePlayer(id: string) {
@@ -2432,13 +2456,16 @@ function sendMultiplayerStateNow() {
 }
 
 function createLocalNetworkState(): NetworkPlayerState {
+  const rotationY = Number(player.rotation.y.toFixed(3));
+
   return {
     position: [
       Number(player.position.x.toFixed(3)),
       Number(player.position.y.toFixed(3)),
       Number(player.position.z.toFixed(3)),
     ],
-    yaw: Number(player.rotation.y.toFixed(3)),
+    yaw: rotationY,
+    rotationY,
     speed: Number(velocity.length().toFixed(3)),
     weaponEquipped,
     kills,

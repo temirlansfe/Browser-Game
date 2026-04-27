@@ -70,6 +70,9 @@ function sanitizeState(value) {
   }
 
   const position = Array.isArray(value.position) ? value.position : [0, 0, 0];
+  const rotationY = Number.isFinite(Number(value.rotationY))
+    ? Number(value.rotationY)
+    : Number(value.yaw) || 0;
 
   return {
     position: [
@@ -77,7 +80,8 @@ function sanitizeState(value) {
       Number(position[1]) || 0,
       Number(position[2]) || 0,
     ],
-    yaw: Number(value.yaw) || 0,
+    yaw: rotationY,
+    rotationY,
     speed: Number(value.speed) || 0,
     weaponEquipped: Boolean(value.weaponEquipped),
     kills: Math.max(0, Number(value.kills) || 0),
@@ -116,6 +120,7 @@ wss.on("connection", (socket) => {
     state: {
       position: [0, 0, 0],
       yaw: 0,
+      rotationY: 0,
       speed: 0,
       weaponEquipped: true,
       kills: 0,
