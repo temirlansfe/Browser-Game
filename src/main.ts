@@ -285,9 +285,11 @@ const tracerMaterial = new THREE.LineBasicMaterial({
 
 const gunshotAudio = new Audio("/assets/audio/gunshot.mp3");
 gunshotAudio.preload = "auto";
+gunshotAudio.load();
 
 let audioContext: AudioContext | undefined;
 let gunshotBuffer: AudioBuffer | undefined;
+let fallbackGunshotBuffer: AudioBuffer | undefined;
 let gunshotArrayBuffer: ArrayBuffer | undefined;
 let audioUnlockPromise: Promise<void> | undefined;
 let gunshotBufferPromise: Promise<void> | undefined;
@@ -531,7 +533,7 @@ document.addEventListener(
   () => {
     void unlockAudioContext();
   },
-  { passive: true },
+  { capture: true, passive: true },
 );
 
 document.addEventListener(
@@ -539,7 +541,7 @@ document.addEventListener(
   () => {
     void unlockAudioContext();
   },
-  { passive: true },
+  { capture: true, passive: true },
 );
 
 window.addEventListener("pointerup", (event) => {
@@ -3801,31 +3803,28 @@ function spawnTracer(end: THREE.Vector3) {
 }
 
 function playGunshot() {
+  const context = getAudioContext();
+
+  if (context.state === "suspended") {
+    void context.resume();
+  }
+
   if (playBufferedGunshot()) {
     return;
   }
 
-  void unlockAudioContext().then(() => {
-    if (!playBufferedGunshot()) {
-      playFallbackGunshot();
-    }
-  });
-
-  const shot = gunshotAudio.cloneNode() as HTMLAudioElement;
-  shot.volume = 0.72;
-  shot.currentTime = 0;
-
-  void shot.play().catch(() => undefined);
+  playFallbackGunshot();
+  void decodeGunshotBuffer();
 }
 
 async function preloadGunshotAudio() {
   try {
+    const context = getAudioContext();
+    getFallbackGunshotBuffer(context);
+
     const response = await fetch("/assets/audio/gunshot.mp3");
     gunshotArrayBuffer = await response.arrayBuffer();
-
-    if (audioContext) {
-      await decodeGunshotBuffer();
-    }
+    gunshotBuffer = await context.decodeAudioData(gunshotArrayBuffer.slice(0));
   } catch {
     gunshotArrayBuffer = undefined;
     gunshotBuffer = undefined;
@@ -3837,24 +3836,21 @@ function playBufferedGunshot() {
     return false;
   }
 
-  audioContext ??= new AudioContext();
+  const context = getAudioContext();
 
-  if (audioContext.state !== "running") {
-    void unlockAudioContext().then(() => {
-      playBufferedGunshot();
-    });
-    return true;
+  if (context.state === "suspended") {
+    void context.resume();
   }
 
-  const source = audioContext.createBufferSource();
-  const gain = audioContext.createGain();
+  const source = context.createBufferSource();
+  const gain = context.createGain();
 
   source.buffer = gunshotBuffer;
   gain.gain.value = 0.74;
 
   source.connect(gain);
-  gain.connect(audioContext.destination);
-  source.start(audioContext.currentTime);
+  gain.connect(context.destination);
+  source.start(context.currentTime);
 
   return true;
 }
@@ -3876,7 +3872,8 @@ async function unlockAudioContext() {
       await context.resume();
     }
 
-    await decodeGunshotBuffer();
+    playAudioUnlockPulse(context);
+    void decodeGunshotBuffer();
   })().finally(() => {
     audioUnlockPromise = undefined;
   });
@@ -3910,20 +3907,56 @@ async function decodeGunshotBuffer() {
   return gunshotBufferPromise;
 }
 
+function playAudioUnlockPulse(context: AudioContext) {
+  const buffer = context.createBuffer(1, 1, context.sampleRate);
+  const source = context.createBufferSource();
+  const gain = context.createGain();
+
+  gain.gain.value = 0;
+  source.buffer = buffer;
+  source.connect(gain);
+  gain.connect(context.destination);
+  source.start(context.currentTime);
+}
+
 function playFallbackGunshot() {
   const context = getAudioContext();
 
-  if (context.state !== "running") {
-    void unlockAudioContext().then(() => {
-      playFallbackGunshot();
-    });
-    return;
+  if (context.state === "suspended") {
+    void context.resume();
   }
 
   const now = context.currentTime;
+  const buffer = getFallbackGunshotBuffer(context);
+
+  const noise = context.createBufferSource();
+  noise.buffer = buffer;
+
+  const filter = context.createBiquadFilter();
+  filter.type = "highpass";
+  filter.frequency.setValueAtTime(520, now);
+  filter.frequency.exponentialRampToValueAtTime(170, now + buffer.duration);
+
+  const gain = context.createGain();
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(0.85, now + 0.008);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + buffer.duration);
+
+  noise.connect(filter);
+  filter.connect(gain);
+  gain.connect(context.destination);
+
+  noise.start(now);
+  noise.stop(now + buffer.duration);
+}
+
+function getFallbackGunshotBuffer(context: AudioContext) {
+  if (fallbackGunshotBuffer) {
+    return fallbackGunshotBuffer;
+  }
+
   const duration = 0.12;
   const sampleRate = context.sampleRate;
-
   const buffer = context.createBuffer(1, sampleRate * duration, sampleRate);
   const channel = buffer.getChannelData(0);
 
@@ -3935,25 +3968,8 @@ function playFallbackGunshot() {
     channel[index] = (crack * 0.72 + lowPop * 0.28) * 0.9;
   }
 
-  const noise = context.createBufferSource();
-  noise.buffer = buffer;
-
-  const filter = context.createBiquadFilter();
-  filter.type = "highpass";
-  filter.frequency.setValueAtTime(520, now);
-  filter.frequency.exponentialRampToValueAtTime(170, now + duration);
-
-  const gain = context.createGain();
-  gain.gain.setValueAtTime(0.0001, now);
-  gain.gain.exponentialRampToValueAtTime(0.85, now + 0.008);
-  gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-  noise.connect(filter);
-  filter.connect(gain);
-  gain.connect(context.destination);
-
-  noise.start(now);
-  noise.stop(now + duration);
+  fallbackGunshotBuffer = buffer;
+  return fallbackGunshotBuffer;
 }
 
 function createHealthBar() {
