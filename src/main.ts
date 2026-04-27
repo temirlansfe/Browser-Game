@@ -287,6 +287,7 @@ const gunshotAudio = new Audio("/assets/audio/gunshot.mp3");
 gunshotAudio.preload = "auto";
 
 let audioContext: AudioContext | undefined;
+let gunshotBuffer: AudioBuffer | undefined;
 
 let crocodileTemplate: THREE.Object3D | undefined;
 let crocodileAnimationClips: THREE.AnimationClip[] = [];
@@ -494,6 +495,8 @@ canvas.addEventListener("pointermove", (event) => {
 });
 
 canvas.addEventListener("pointerdown", (event) => {
+  resumeAudioContext();
+
   if (isSettingsPanelOpen() || shopOpen) {
     return;
   }
@@ -593,6 +596,7 @@ void loadBackflipCharacter();
 void loadDancingCharacters();
 void loadDancingShrek();
 void loadWeapon();
+void preloadGunshotAudio();
 
 animate();
 
@@ -727,6 +731,7 @@ function setupMobileControls() {
   mobileAttackButton?.addEventListener("pointerdown", (event) => {
     event.preventDefault();
     event.stopPropagation();
+    resumeAudioContext();
     mobileAttackButton.setPointerCapture(event.pointerId);
     mobileAttackHeld = true;
     mouseHeld = true;
@@ -1434,12 +1439,12 @@ function spawnNpc(
   const body = SkeletonUtils.clone(template);
 
   if (kind === "crocodile") {
-    normalizeModel(body, 3.45);
+    normalizeModel(body, 2.35);
   } else if (kind === "gull") {
     normalizeModel(body, 2.55);
     body.rotation.y = Math.PI;
   } else {
-    normalizeModel(body, 2.35);
+    normalizeModel(body, 3.05);
 
     // Если женщина идёт спиной вперёд, раскомментируй:
     // body.rotation.y = Math.PI;
@@ -1534,22 +1539,22 @@ function getNpcBaseY(kind: NpcKind) {
 
 function getNpcHealthBarY(kind: NpcKind) {
   if (kind === "crocodile") {
-    return 3.55;
+    return 2.55;
   }
 
   if (kind === "gull") {
     return 1.0;
   }
 
-  return 2.35;
+  return 3.05;
 }
 
 function getNpcCollisionRadius(kind: NpcKind) {
-  return kind === "crocodile" ? 1.05 : kind === "gull" ? 0.7 : 1.2;
+  return kind === "crocodile" ? 0.82 : kind === "gull" ? 0.7 : 1.45;
 }
 
 function getNpcHitRadius(kind: NpcKind) {
-  return kind === "crocodile" ? 1.05 : kind === "gull" ? 0.75 : 0.85;
+  return kind === "crocodile" ? 0.85 : kind === "gull" ? 0.75 : 1.1;
 }
 
 function getNpcMaxHp(kind: NpcKind) {
@@ -3777,6 +3782,10 @@ function spawnTracer(end: THREE.Vector3) {
 }
 
 function playGunshot() {
+  if (playBufferedGunshot()) {
+    return;
+  }
+
   const shot = gunshotAudio.cloneNode() as HTMLAudioElement;
   shot.volume = 0.72;
   shot.currentTime = 0;
@@ -3784,6 +3793,45 @@ function playGunshot() {
   void shot.play().catch(() => {
     playFallbackGunshot();
   });
+}
+
+async function preloadGunshotAudio() {
+  try {
+    audioContext ??= new AudioContext();
+    const response = await fetch("/assets/audio/gunshot.mp3");
+    const arrayBuffer = await response.arrayBuffer();
+    gunshotBuffer = await audioContext.decodeAudioData(arrayBuffer);
+  } catch {
+    gunshotBuffer = undefined;
+  }
+}
+
+function playBufferedGunshot() {
+  if (!gunshotBuffer) {
+    return false;
+  }
+
+  audioContext ??= new AudioContext();
+
+  resumeAudioContext();
+
+  const source = audioContext.createBufferSource();
+  const gain = audioContext.createGain();
+
+  source.buffer = gunshotBuffer;
+  gain.gain.value = 0.74;
+
+  source.connect(gain);
+  gain.connect(audioContext.destination);
+  source.start(audioContext.currentTime);
+
+  return true;
+}
+
+function resumeAudioContext() {
+  if (audioContext?.state === "suspended") {
+    void audioContext.resume();
+  }
 }
 
 function playFallbackGunshot() {
