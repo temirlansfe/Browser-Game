@@ -126,6 +126,7 @@ type MultiplayerMessage =
 
 declare global {
   interface Window {
+    webkitAudioContext?: typeof AudioContext;
     __TADEO_DEBUG__?: {
       playerPosition: [number, number, number];
       speed: number;
@@ -161,6 +162,9 @@ declare global {
       multiplayerConnected: boolean;
       multiplayerPlayers: number;
       multiplayerPlaceholders: number;
+      audioUnlocked: boolean;
+      audioState: AudioContextState | "missing";
+      gunshotReady: boolean;
     };
     __TADEO_CAMERA__?: {
       yaw: number;
@@ -288,6 +292,7 @@ gunshotAudio.preload = "auto";
 gunshotAudio.load();
 
 let audioContext: AudioContext | undefined;
+let audioUnlocked = false;
 let gunshotBuffer: AudioBuffer | undefined;
 let fallbackGunshotBuffer: AudioBuffer | undefined;
 let gunshotArrayBuffer: ArrayBuffer | undefined;
@@ -749,13 +754,13 @@ function setupMobileControls() {
   moveStick?.addEventListener("pointerup", releaseMoveStick);
   moveStick?.addEventListener("pointercancel", releaseMoveStick);
 
-  mobileAttackButton?.addEventListener("pointerdown", (event) => {
+  mobileAttackButton?.addEventListener("pointerdown", async (event) => {
     event.preventDefault();
     event.stopPropagation();
-    void unlockAudioContext();
     mobileAttackButton.setPointerCapture(event.pointerId);
     mobileAttackHeld = true;
     mouseHeld = true;
+    await unlockAudioContext().catch(() => undefined);
 
     if (weaponEquipped) {
       shoot();
@@ -3237,6 +3242,9 @@ function updateMovement(delta: number) {
     multiplayerPlaceholders: [...remotePlayers.values()].filter(
       (remotePlayer) => remotePlayer.usingPlaceholder,
     ).length,
+    audioUnlocked,
+    audioState: audioContext?.state ?? "missing",
+    gunshotReady: Boolean(gunshotBuffer),
   };
 
   window.__TADEO_CAMERA__ = {
@@ -3803,28 +3811,31 @@ function spawnTracer(end: THREE.Vector3) {
 }
 
 function playGunshot() {
-  const context = getAudioContext();
-
-  if (context.state === "suspended") {
-    void context.resume();
-  }
-
   if (playBufferedGunshot()) {
     return;
   }
 
-  playFallbackGunshot();
+  if (playFallbackGunshot()) {
+    return;
+  }
+
+  void unlockAudioContext().then(() => {
+    if (!playBufferedGunshot()) {
+      playFallbackGunshot();
+    }
+  });
+
   void decodeGunshotBuffer();
 }
 
 async function preloadGunshotAudio() {
   try {
-    const context = getAudioContext();
-    getFallbackGunshotBuffer(context);
-
     const response = await fetch("/assets/audio/gunshot.mp3");
     gunshotArrayBuffer = await response.arrayBuffer();
-    gunshotBuffer = await context.decodeAudioData(gunshotArrayBuffer.slice(0));
+
+    if (audioUnlocked) {
+      void decodeGunshotBuffer();
+    }
   } catch {
     gunshotArrayBuffer = undefined;
     gunshotBuffer = undefined;
@@ -3838,8 +3849,8 @@ function playBufferedGunshot() {
 
   const context = getAudioContext();
 
-  if (context.state === "suspended") {
-    void context.resume();
+  if (context.state !== "running") {
+    return false;
   }
 
   const source = context.createBufferSource();
@@ -3856,7 +3867,13 @@ function playBufferedGunshot() {
 }
 
 function getAudioContext() {
-  audioContext ??= new AudioContext();
+  const AudioContextCtor = window.AudioContext ?? window.webkitAudioContext;
+
+  if (!AudioContextCtor) {
+    throw new Error("Web Audio is not supported on this browser.");
+  }
+
+  audioContext ??= new AudioContextCtor();
   return audioContext;
 }
 
@@ -3872,6 +3889,8 @@ async function unlockAudioContext() {
       await context.resume();
     }
 
+    audioUnlocked = context.state === "running";
+    getFallbackGunshotBuffer(context);
     playAudioUnlockPulse(context);
     void decodeGunshotBuffer();
   })().finally(() => {
@@ -3922,8 +3941,8 @@ function playAudioUnlockPulse(context: AudioContext) {
 function playFallbackGunshot() {
   const context = getAudioContext();
 
-  if (context.state === "suspended") {
-    void context.resume();
+  if (context.state !== "running") {
+    return false;
   }
 
   const now = context.currentTime;
@@ -3948,6 +3967,8 @@ function playFallbackGunshot() {
 
   noise.start(now);
   noise.stop(now + buffer.duration);
+
+  return true;
 }
 
 function getFallbackGunshotBuffer(context: AudioContext) {
