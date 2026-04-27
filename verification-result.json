@@ -1,0 +1,82 @@
+[
+  {
+    "name": "desktop",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "before": {
+      "text": "Tadeo ходит: procedural rig\nWASD / стрелки",
+      "debug": {
+        "playerPosition": [
+          0,
+          0,
+          0
+        ],
+        "speed": 0,
+        "hasModel": true,
+        "hasRig": true
+      }
+    },
+    "after": {
+      "text": "Tadeo ходит: procedural rig\nWASD / стрелки",
+      "overlay": "OK",
+      "canvas": {
+        "width": 1280,
+        "height": 800
+      },
+      "debug": {
+        "playerPosition": [
+          -1.051,
+          0,
+          -2.761
+        ],
+        "speed": 1.096,
+        "hasModel": true,
+        "hasRig": true
+      }
+    },
+    "errors": [],
+    "badResponses": []
+  },
+  {
+    "name": "mobile",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "before": {
+      "text": "Tadeo ходит: procedural rig\nWASD / стрелки",
+      "debug": {
+        "playerPosition": [
+          0,
+          0,
+          0
+        ],
+        "speed": 0,
+        "hasModel": true,
+        "hasRig": true
+      }
+    },
+    "after": {
+      "text": "Tadeo ходит: procedural rig\nWASD / стрелки",
+      "overlay": "OK",
+      "canvas": {
+        "width": 390,
+        "height": 844
+      },
+      "debug": {
+        "playerPosition": [
+          -1.052,
+          0,
+          -2.705
+        ],
+        "speed": 1.185,
+        "hasModel": true,
+        "hasRig": true
+      }
+    },
+    "errors": [],
+    "badResponses": []
+  }
+]

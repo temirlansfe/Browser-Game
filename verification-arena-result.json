@@ -1,0 +1,101 @@
+{
+  "result": {
+    "debug": {
+      "playerPosition": [
+        0,
+        0,
+        0
+      ],
+      "speed": 0,
+      "sprinting": false,
+      "hasModel": true,
+      "hasRig": true,
+      "playerYaw": 0.576,
+      "npcCount": 7,
+      "kills": 0,
+      "weaponReady": true,
+      "weaponEquipped": true,
+      "punchReady": true,
+      "punchType": null,
+      "arenaReady": true,
+      "npcHp": [
+        85,
+        85,
+        85,
+        100,
+        100,
+        100,
+        100
+      ],
+      "npcKinds": [
+        "stalker",
+        "stalker",
+        "stalker",
+        "crocodile",
+        "crocodile",
+        "crocodile",
+        "crocodile"
+      ],
+      "npcPositions": [
+        [
+          0.171,
+          0.027,
+          -9.962
+        ],
+        [
+          -9.932,
+          0.021,
+          -0.946
+        ],
+        [
+          10.597,
+          0.014,
+          -1.396
+        ],
+        [
+          -6.847,
+          0.023,
+          -5.109
+        ],
+        [
+          6.367,
+          0.025,
+          -4.856
+        ],
+        [
+          -7.385,
+          0.025,
+          3.565
+        ],
+        [
+          7.478,
+          0.024,
+          3.039
+        ]
+      ]
+    },
+    "camera": {
+      "yaw": -0.576,
+      "pitch": 0.388,
+      "distance": 4.8,
+      "position": [
+        -1.788,
+        3.268,
+        4.128
+      ]
+    },
+    "text": "Weapon: ON | Kills: 0 | Crocs: 4 | Stalkers: 3\nclick to lock + WASD"
+  },
+  "arenaResponses": [
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5180/assets/source/arena.glb"
+    },
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:5180/assets/source/arena.glb"
+    }
+  ],
+  "errors": [],
+  "badResponses": []
+}

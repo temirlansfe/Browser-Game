@@ -1,0 +1,28 @@
+{
+  "name": "3d-fbx",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "server": "node server/multiplayer.mjs",
+    "build": "tsc && vite build",
+    "start": "node server/multiplayer.mjs",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@types/ws": "^8.18.1",
+    "@vitejs/plugin-basic-ssl": "^2.3.0",
+    "three": "^0.184.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.10",
+    "ws": "^8.20.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.184.0",
+    "playwright": "^1.59.1"
+  }
+}

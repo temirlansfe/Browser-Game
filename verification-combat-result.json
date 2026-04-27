@@ -1,0 +1,67 @@
+{
+  "before": {
+    "playerPosition": [
+      0,
+      0,
+      -2.842
+    ],
+    "speed": 3.076,
+    "hasModel": true,
+    "hasRig": true,
+    "playerYaw": 0,
+    "npcCount": 4,
+    "kills": 0,
+    "weaponReady": true,
+    "npcHp": [
+      100,
+      100,
+      100,
+      100
+    ]
+  },
+  "afterShots": {
+    "playerPosition": [
+      0,
+      0,
+      -3.266
+    ],
+    "speed": 0.003,
+    "hasModel": true,
+    "hasRig": true,
+    "playerYaw": 0,
+    "npcCount": 3,
+    "kills": 1,
+    "weaponReady": true,
+    "npcHp": [
+      66,
+      100,
+      100
+    ]
+  },
+  "afterSpawn": {
+    "debug": {
+      "playerPosition": [
+        0,
+        0,
+        -3.266
+      ],
+      "speed": 0,
+      "hasModel": true,
+      "hasRig": true,
+      "playerYaw": 0,
+      "npcCount": 4,
+      "kills": 1,
+      "weaponReady": true,
+      "npcHp": [
+        66,
+        100,
+        100,
+        100
+      ]
+    },
+    "text": "Kills: 1 | NPC: 4\nmouse + WASD + click",
+    "overlay": "OK"
+  },
+  "errors": [],
+  "badResponses": []
+}

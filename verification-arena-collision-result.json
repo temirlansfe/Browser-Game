@@ -1,0 +1,166 @@
+{
+  "before": {
+    "playerPosition": [
+      0,
+      0,
+      0
+    ],
+    "speed": 0,
+    "sprinting": false,
+    "hasModel": true,
+    "hasRig": true,
+    "playerYaw": 0.104,
+    "npcCount": 7,
+    "kills": 0,
+    "weaponReady": true,
+    "weaponEquipped": true,
+    "punchReady": true,
+    "punchType": null,
+    "arenaReady": true,
+    "arenaBounds": {
+      "halfX": 4,
+      "halfZ": 4
+    },
+    "npcHp": [
+      100,
+      100,
+      100,
+      100,
+      85,
+      85,
+      85
+    ],
+    "npcKinds": [
+      "crocodile",
+      "crocodile",
+      "crocodile",
+      "crocodile",
+      "stalker",
+      "stalker",
+      "stalker"
+    ],
+    "npcPositions": [
+      [
+        -3.257,
+        0.013,
+        -3.213
+      ],
+      [
+        3.257,
+        0.014,
+        -3.257
+      ],
+      [
+        -3.257,
+        0.014,
+        3.198
+      ],
+      [
+        3.198,
+        0.014,
+        3.225
+      ],
+      [
+        0.06,
+        0.021,
+        -3.532
+      ],
+      [
+        -3.532,
+        0.021,
+        0.021
+      ],
+      [
+        3.419,
+        0.022,
+        0.081
+      ]
+    ]
+  },
+  "after": {
+    "debug": {
+      "playerPosition": [
+        0,
+        0,
+        -3.38
+      ],
+      "speed": 0,
+      "sprinting": false,
+      "hasModel": true,
+      "hasRig": true,
+      "playerYaw": 0,
+      "npcCount": 6,
+      "kills": 0,
+      "weaponReady": true,
+      "weaponEquipped": true,
+      "punchReady": true,
+      "punchType": null,
+      "arenaReady": true,
+      "arenaBounds": {
+        "halfX": 4,
+        "halfZ": 4
+      },
+      "npcHp": [
+        100,
+        100,
+        100,
+        100,
+        49,
+        49
+      ],
+      "npcKinds": [
+        "crocodile",
+        "crocodile",
+        "crocodile",
+        "crocodile",
+        "stalker",
+        "stalker"
+      ],
+      "npcPositions": [
+        [
+          -3.257,
+          0.016,
+          -2.26
+        ],
+        [
+          0.571,
+          0.025,
+          -2.892
+        ],
+        [
+          -3.257,
+          0.019,
+          1.961
+        ],
+        [
+          -1.028,
+          0.002,
+          0.366
+        ],
+        [
+          -1.518,
+          0.027,
+          -3.532
+        ],
+        [
+          -3.532,
+          0.017,
+          -0.127
+        ]
+      ]
+    },
+    "camera": {
+      "yaw": 0,
+      "pitch": 0.42,
+      "distance": 4.8,
+      "position": [
+        0.72,
+        3.407,
+        1.003
+      ]
+    },
+    "text": "Weapon: ON | Kills: 0 | Crocs: 4 | Stalkers: 2\nclick to lock + WASD"
+  },
+  "errors": [],
+  "badResponses": []
+}

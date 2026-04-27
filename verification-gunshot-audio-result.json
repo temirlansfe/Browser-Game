@@ -1,0 +1,55 @@
+{
+  "result": {
+    "debug": {
+      "playerPosition": [
+        0,
+        0,
+        0
+      ],
+      "speed": 0,
+      "hasModel": true,
+      "hasRig": true,
+      "playerYaw": 0,
+      "npcCount": 4,
+      "kills": 0,
+      "weaponReady": true,
+      "npcHp": [
+        100,
+        100,
+        100,
+        100
+      ],
+      "npcPositions": [
+        [
+          -6.5,
+          0.025,
+          -5.628
+        ],
+        [
+          5.936,
+          0.025,
+          -5.5
+        ],
+        [
+          -7,
+          0.024,
+          4.299
+        ],
+        [
+          6.635,
+          0.023,
+          4.3
+        ]
+      ]
+    },
+    "text": "Kills: 0 | NPC: 4\nmouse + WASD + click"
+  },
+  "audioResponses": [
+    {
+      "status": 206,
+      "url": "http://127.0.0.1:5180/assets/audio/gunshot.mp3"
+    }
+  ],
+  "errors": [],
+  "badResponses": []
+}

@@ -1,0 +1,51 @@
+{
+  "before": {
+    "debug": {
+      "playerPosition": [
+        0,
+        0,
+        0
+      ],
+      "speed": 0,
+      "hasModel": true,
+      "hasRig": true
+    },
+    "camera": {
+      "yaw": 0,
+      "pitch": 0.42,
+      "distance": 7.7,
+      "position": [
+        0,
+        3.996,
+        7.613
+      ]
+    },
+    "text": "Tadeo walks: procedural rig\nWASD / стрелки"
+  },
+  "after": {
+    "debug": {
+      "playerPosition": [
+        2.59,
+        0,
+        0.284
+      ],
+      "speed": 1.299,
+      "hasModel": true,
+      "hasRig": true
+    },
+    "camera": {
+      "yaw": -1.68,
+      "pitch": 0.645,
+      "distance": 7.7,
+      "position": [
+        -4.031,
+        5.764,
+        -0.369
+      ]
+    },
+    "overlay": "OK",
+    "text": "Tadeo walks: procedural rig\nWASD / стрелки"
+  },
+  "errors": [],
+  "badResponses": []
+}

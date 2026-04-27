@@ -1,0 +1,90 @@
+{
+  "walk": {
+    "playerPosition": [
+      0,
+      0,
+      -2.616
+    ],
+    "speed": 3.393,
+    "sprinting": false,
+    "hasModel": true,
+    "hasRig": true,
+    "playerYaw": 0.001,
+    "npcCount": 4,
+    "kills": 0,
+    "weaponReady": true,
+    "npcHp": [
+      100,
+      100,
+      100,
+      100
+    ],
+    "npcPositions": [
+      [
+        -6.5,
+        0.003,
+        -5.497
+      ],
+      [
+        6.09,
+        0.008,
+        -5.5
+      ],
+      [
+        -7,
+        0.012,
+        4.123
+      ],
+      [
+        6.436,
+        0.015,
+        4.3
+      ]
+    ]
+  },
+  "sprint": {
+    "playerPosition": [
+      0,
+      0,
+      -7.996
+    ],
+    "speed": 6.19,
+    "sprinting": true,
+    "hasModel": true,
+    "hasRig": true,
+    "playerYaw": 0,
+    "npcCount": 4,
+    "kills": 0,
+    "weaponReady": true,
+    "npcHp": [
+      100,
+      100,
+      100,
+      100
+    ],
+    "npcPositions": [
+      [
+        -6.438,
+        0.006,
+        -4.755
+      ],
+      [
+        6.871,
+        0.015,
+        -5.752
+      ],
+      [
+        -7,
+        0.022,
+        3.12
+      ],
+      [
+        5.304,
+        0.025,
+        4.3
+      ]
+    ]
+  },
+  "errors": [],
+  "badResponses": []
+}

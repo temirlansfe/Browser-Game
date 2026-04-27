@@ -1,0 +1,91 @@
+{
+  "result": {
+    "pointerLocked": true,
+    "cursor": "none",
+    "debug": {
+      "playerPosition": [
+        0,
+        0,
+        0
+      ],
+      "speed": 0,
+      "sprinting": false,
+      "hasModel": true,
+      "hasRig": true,
+      "playerYaw": 0.701,
+      "npcCount": 7,
+      "kills": 0,
+      "weaponReady": true,
+      "weaponEquipped": true,
+      "punchReady": true,
+      "punchType": null,
+      "npcHp": [
+        85,
+        85,
+        85,
+        100,
+        100,
+        100,
+        100
+      ],
+      "npcKinds": [
+        "stalker",
+        "stalker",
+        "stalker",
+        "crocodile",
+        "crocodile",
+        "crocodile",
+        "crocodile"
+      ],
+      "npcPositions": [
+        [
+          -0.298,
+          0.021,
+          -9.385
+        ],
+        [
+          -9.97,
+          0.017,
+          -0.618
+        ],
+        [
+          9.981,
+          0.012,
+          -1.177
+        ],
+        [
+          -6.71,
+          0.025,
+          -5.41
+        ],
+        [
+          6.088,
+          0.024,
+          -5.523
+        ],
+        [
+          -7.291,
+          0.023,
+          4.008
+        ],
+        [
+          7.166,
+          0.021,
+          3.458
+        ]
+      ]
+    },
+    "camera": {
+      "yaw": -0.704,
+      "pitch": 0.356,
+      "distance": 4.8,
+      "position": [
+        -2.17,
+        3.144,
+        3.977
+      ]
+    }
+  },
+  "errors": [],
+  "badResponses": []
+}

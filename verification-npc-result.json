@@ -1,0 +1,30 @@
+{
+  "result": {
+    "debug": {
+      "playerPosition": [
+        -2.332,
+        0,
+        -2.09
+      ],
+      "speed": 0.015,
+      "hasModel": true,
+      "hasRig": true,
+      "playerYaw": -0.84,
+      "npcCount": 4
+    },
+    "camera": {
+      "yaw": 0.84,
+      "pitch": 0.172,
+      "distance": 7.7,
+      "position": [
+        3.352,
+        2.472,
+        3.007
+      ]
+    },
+    "overlay": "OK",
+    "text": "Tadeo walks: procedural rig\nмышь + WASD"
+  },
+  "errors": [],
+  "badResponses": []
+}

@@ -1,0 +1,148 @@
+{
+  "before": {
+    "playerPosition": [
+      0,
+      0,
+      0
+    ],
+    "speed": 0,
+    "sprinting": false,
+    "hasModel": true,
+    "hasRig": true,
+    "playerYaw": 0.158,
+    "npcCount": 7,
+    "kills": 0,
+    "weaponReady": true,
+    "weaponEquipped": true,
+    "punchReady": true,
+    "punchType": null,
+    "arenaReady": true,
+    "arenaBounds": {
+      "halfX": 13.5,
+      "halfZ": 13.5
+    },
+    "npcHp": [
+      100,
+      100,
+      100,
+      100,
+      85,
+      85,
+      85
+    ],
+    "npcKinds": [
+      "crocodile",
+      "crocodile",
+      "crocodile",
+      "crocodile",
+      "stalker",
+      "stalker",
+      "stalker"
+    ],
+    "npcPositions": [
+      [
+        -6.506,
+        0.012,
+        -5.933
+      ],
+      [
+        5.576,
+        0.013,
+        -5.519
+      ],
+      [
+        -7.008,
+        0.013,
+        4.71
+      ],
+      [
+        7.108,
+        0.013,
+        4.258
+      ],
+      [
+        -0.041,
+        0.017,
+        -8.996
+      ],
+      [
+        -8.956,
+        0.017,
+        0.006
+      ],
+      [
+        8.993,
+        0.017,
+        -0.05
+      ]
+    ]
+  },
+  "after": {
+    "playerPosition": [
+      0,
+      0,
+      0
+    ],
+    "speed": 0,
+    "sprinting": false,
+    "hasModel": true,
+    "hasRig": true,
+    "playerYaw": 0,
+    "npcCount": 5,
+    "kills": 0,
+    "weaponReady": true,
+    "weaponEquipped": true,
+    "punchReady": true,
+    "punchType": null,
+    "arenaReady": true,
+    "arenaBounds": {
+      "halfX": 13.5,
+      "halfZ": 13.5
+    },
+    "npcHp": [
+      100,
+      100,
+      100,
+      100,
+      85
+    ],
+    "npcKinds": [
+      "crocodile",
+      "crocodile",
+      "crocodile",
+      "crocodile",
+      "stalker"
+    ],
+    "npcPositions": [
+      [
+        -9.251,
+        0.002,
+        -2.696
+      ],
+      [
+        8.987,
+        0.023,
+        -3.398
+      ],
+      [
+        -9.812,
+        0.015,
+        -0.795
+      ],
+      [
+        9.425,
+        0.014,
+        -2.072
+      ],
+      [
+        2.093,
+        0.035,
+        -10.262
+      ]
+    ]
+  },
+  "beforeMaxAbs": 8.996,
+  "afterMaxAbs": 10.262,
+  "errors": [],
+  "badResponses": []
+}
