@@ -1207,9 +1207,7 @@ function getModelDebugBounds() {
 async function loadCrocodileNpcs() {
   const loader = new GLTFLoader();
 
-  const gltf = await loader.loadAsync(
-    "/assets/source/realistic_crocodile_3d_model_-_rigged.glb",
-  );
+  const gltf = await loader.loadAsync("/assets/source/rock_fight.glb");
 
   crocodileTemplate = gltf.scene;
   crocodileAnimationClips = gltf.animations;
@@ -1436,7 +1434,7 @@ function spawnNpc(
   const body = SkeletonUtils.clone(template);
 
   if (kind === "crocodile") {
-    normalizeModel(body, 3.15);
+    normalizeModel(body, 3.45);
   } else if (kind === "gull") {
     normalizeModel(body, 2.55);
     body.rotation.y = Math.PI;
@@ -1536,7 +1534,7 @@ function getNpcBaseY(kind: NpcKind) {
 
 function getNpcHealthBarY(kind: NpcKind) {
   if (kind === "crocodile") {
-    return 1.7;
+    return 3.55;
   }
 
   if (kind === "gull") {
@@ -1547,11 +1545,11 @@ function getNpcHealthBarY(kind: NpcKind) {
 }
 
 function getNpcCollisionRadius(kind: NpcKind) {
-  return kind === "crocodile" ? 1.35 : kind === "gull" ? 0.7 : 1.2;
+  return kind === "crocodile" ? 1.05 : kind === "gull" ? 0.7 : 1.2;
 }
 
 function getNpcHitRadius(kind: NpcKind) {
-  return kind === "crocodile" ? 1.35 : kind === "gull" ? 0.75 : 0.85;
+  return kind === "crocodile" ? 1.05 : kind === "gull" ? 0.75 : 0.85;
 }
 
 function getNpcMaxHp(kind: NpcKind) {
@@ -3877,7 +3875,7 @@ function updateCombatHud() {
   const onlineCount = remotePlayers.size + (multiplayerConnected ? 1 : 0);
   const onlineStatus = multiplayerConnected ? `${onlineCount}` : "offline";
 
-  statusEl.textContent = `${mode} | ${nickname} | Online: ${onlineStatus} | Coins: ${coins} | Kills: ${kills} | NPC: ${enemyNpcs.length}/${npcSettings.maxNpcCount} | Crocs: ${crocodileCount} | Gulls: ${gullCount} | Stalkers: ${stalkerCount} | Spawn: ${npcSettings.spawnInterval.toFixed(1)}s | Speed: ${npcSettings.npcSpeedMultiplier.toFixed(1)}x | Esc: menu`;
+  statusEl.textContent = `${mode} | ${nickname} | Online: ${onlineStatus} | Coins: ${coins} | Kills: ${kills} | NPC: ${enemyNpcs.length}/${npcSettings.maxNpcCount} | Rocks: ${crocodileCount} | Gulls: ${gullCount} | Stalkers: ${stalkerCount} | Spawn: ${npcSettings.spawnInterval.toFixed(1)}s | Speed: ${npcSettings.npcSpeedMultiplier.toFixed(1)}x | Esc: menu`;
 }
 
 function randomSpawnPosition() {
